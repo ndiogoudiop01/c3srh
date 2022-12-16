@@ -65,7 +65,25 @@ class EmployeController extends Controller
                 ->leftJoin('users','users.matricule','employes.matricule')
                 ->where('users.matricule',$matricule)
                 ->get(); 
-        return view('form.employeeprofile',compact('employer','employers'));
+        $Abslogs  = DB::table('conges')
+                 ->select('libelle', 'nbre_jours', 'date_debut', 'date_fin',DB::raw('sum(nbre_jours) as total'))
+                 ->where('conges.matricule', $matricule)
+                 ->where('conges.type_conge', 'Absence')
+                 ->groupBy('conges.id')
+                 ->get();
+        $Mallogs  = DB::table('conges')
+                 ->select('libelle', 'nbre_jours', 'date_debut', 'date_fin',DB::raw('sum(nbre_jours) as total'))
+                 ->where('conges.matricule', $matricule)
+                 ->where('conges.type_conge', 'Maladie')
+                 ->groupBy('conges.id')
+                 ->get();
+        $Anlogs   = DB::table('conges')
+                  ->select('libelle', 'nbre_jours', 'date_debut', 'date_fin',DB::raw('sum(nbre_jours) as total'))
+                 ->where('conges.matricule', $matricule)
+                 ->where('conges.type_conge', 'Annuel')
+                 ->groupBy('conges.id')
+                 ->get() ;
+        return view('form.employeeprofile',compact('employer','employers', 'Abslogs', 'Mallogs', 'Anlogs'));
     }
 
 
@@ -82,14 +100,14 @@ class EmployeController extends Controller
         'datenaissance' => 'required',
         'telephone'     => 'required|string|max:100',
         'genre'         => 'required|string',
-        'matricule'     => 'required|string'
+        'matricule'     => 'required'
        ]);
 
        DB::beginTransaction();
        try{
             $emp = Employe::where('matricule', '=', $request->matricule)->first();
             $user = Auth::User();
-            
+            //dd($emp);
             if ($emp === null) {
                 
                 $employe = new Employe();
@@ -103,6 +121,7 @@ class EmployeController extends Controller
                 $employe->compagnie             = $request->compagnie;
                 $employe->save();
                 //dd($employe);
+
                 $infos = new PersonnelInformation();
                 $infos->matricule = $request->matricule;
                 $infos->user_id = $user->id;
@@ -114,19 +133,21 @@ class EmployeController extends Controller
                 $infos->nombre_enfant = $request->nombre_enfant;
                 $infos->ville = $request->ville;
                 $infos->save();
-                dd($infos);
+                //dd($infos);
                 $user = new User();
-                $email  = $request->email.'@c3s.sn';
+                $email  = $request->nom.'@c3s.sn';
                 $role_name  = 'Employee';
+                $status = 'Inactive';
                 $password = Hash::make('00'.$request->matricule);
-                $user->name                  = $user->nom;
+                $user->name                  = $request->nom;
                 $user->matricule             = $request->matricule;
                 $user->email                 = $email;
                 $user->telephone             = $request->telephone;
-                $user->status                = 'Inactive';
+                $user->status                =  $status;
                 $user->role_name             = $role_name;
                 $user->password              = $password;
                 $user->save();
+                //dd($user);
 
                 DB::commit();
                 Toastr::success('Add new employee successfully :)','Success');

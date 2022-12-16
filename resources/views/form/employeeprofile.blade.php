@@ -32,10 +32,10 @@
                                     <div class="row">
                                         <div class="col-md-5">
                                             <div class="profile-info-left">
-                                                <h3 class="user-name m-t-0 mb-0">NOM</h3>
-                                                <h6 class="text-muted">Department</h6>
+                                                <h3 class="user-name m-t-0 mb-0">{{ $employer[0]->nom }}</h3>
+                                                <h6 class="text-muted">{{ $employer[0]->departement }}</h6>
                                                 <small class="text-muted">pOSITION</small>
-                                                <div class="staff-id">MATRICULE:  matricule</div>
+                                                <div class="staff-id">MATRICULE:  {{ $employer[0]->matricule }}</div>
                                                 <div class="small doj text-muted">Date of Join : </div>
                                                 <div class="staff-msg"><a class="btn btn-custom" href="chat.html">Send Message</a></div>
                                             </div>
@@ -43,16 +43,16 @@
                                         <div class="col-md-7">
                                             <ul class="personal-info">
                                                 <li>
-                                                    <div class="title">Telephone:</div>
+                                                    <div class="title">Telephone: {{ $employer[0]->telephone }}</div>
                                                     <div class="text"><a href=""></a></div>
                                                 </li>
                                                 <li>
-                                                    <div class="title">Email:</div>
+                                                    <div class="title">Email: {{ $employer[0]->email }}</div>
                                                     <div class="text"><a href=""></a></div>
                                                 </li>
                                                 <li>
                                                     @if(!empty($employers))
-                                                        <div class="title">Date de naissance:</div>
+                                                        <div class="title">Date de naissance: {{ $employers->datenaissance }}</div>
                                                         <div class="text"></div>
                                                     @else
                                                         <div class="title">Date de naissance:</div>
@@ -86,7 +86,7 @@
                                                             </div>
                                                         </div>
                                                         <a href="profile.html">
-                                                            NOM EMPLOYE
+                                                            {{ $employer[0]->nom }}
                                                         </a>
                                                     </div>
                                                 </li> 
@@ -105,9 +105,9 @@
                 <div class="row user-tabs">
                     <div class="col-lg-12 col-md-12 col-sm-12 line-tabs">
                         <ul class="nav nav-tabs nav-tabs-bottom">
-                            <li class="nav-item"><a href="#emp_profile" data-toggle="tab" class="nav-link active">Profile</a></li>
-                            <li class="nav-item"><a href="#emp_projects" data-toggle="tab" class="nav-link">Projects</a></li>
-                            <li class="nav-item"><a href="#bank_statutory" data-toggle="tab" class="nav-link">Bank & Statutory <small class="text-danger">(Admin Only)</small></a></li>
+                            <li class="nav-item"><a href="#emp_profile" data-toggle="tab" class="nav-link active">Informations</a></li>
+                            <li class="nav-item"><a href="#emp_projects" data-toggle="tab" class="nav-link">Attendance Logs</a></li>
+                            <li class="nav-item"><a href="#bank_statutory" data-toggle="tab" class="nav-link">Contrats<small class="text-danger">(Admin Only)</small></a></li>
                         </ul>
                     </div>
                 </div>
@@ -124,35 +124,31 @@
                                     <ul class="personal-info">
                                         <li>
                                             <div class="title">CIN.</div>
-                                            <div class="text"></div>
+                                            <div class="text">{{ $employers->cin }}</div>
                                         </li>
                                         <li>
                                             <div class="title">Passport.</div>
-                                            <div class="text"></div>
+                                            <div class="text">{{ $employers->passport }}</div>
                                         </li>
                                         <li>
-                                            <div class="title">Tel</div>
-                                            <div class="text"><a href=""></a></div>
+                                            <div class="title">Telephone</div>
+                                            <div class="text">{{ $employers->telephone }}</div>
                                         </li>
                                         <li>
                                             <div class="title">Nationality</div>
-                                            <div class="text"></div>
+                                            <div class="text">{{ $employers->nationalite }}</div>
                                         </li>
                                         <li>
-                                            <div class="title">Religion</div>
-                                            <div class="text"></div>
+                                            <div class="title">Situation Matrimoniale</div>
+                                            <div class="text">{{ $employers->situation_matrimoniale }}</div>
                                         </li>
                                         <li>
-                                            <div class="title">Marital status</div>
-                                            <div class="text"></div>
+                                            <div class="title">Nombre d'epouses</div>
+                                            <div class="text">{{ $employers->nombre_epouse }}</div>
                                         </li>
                                         <li>
-                                            <div class="title">Employment of spouse</div>
-                                            <div class="text"></div>
-                                        </li>
-                                        <li>
-                                            <div class="title">No. of children</div>
-                                            <div class="text"></div>
+                                            <div class="title">Nombre d'enfants</div>
+                                            <div class="text">{{ $employers->nombre_enfant }}</div>
                                         </li>
                                     </ul>
                                 </div>
@@ -284,70 +280,40 @@
                 <!-- Projects Tab -->
                 <div class="tab-pane fade" id="emp_projects">
                     <div class="row">
-                        <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
-                            <div class="card">
+                        <div class="col-lg-4 col-sm-5 col-md-4 col-xl-4">
+                            <div class="card profile-box flex-fill">
                                 <div class="card-body">
-                                    <div class="dropdown profile-action">
-                                        <a aria-expanded="false" data-toggle="dropdown" class="action-icon dropdown-toggle" href="#"><i class="material-icons">more_vert</i></a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a data-target="#edit_project" data-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                            <a data-target="#delete_project" data-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                                        </div>
-                                    </div>
-                                    <h4 class="project-title"><a href="project-view.html">Office Management</a></h4>
+                                    <h3 class="card-title">Autres Absences<a href="#" class="edit-icon" data-toggle="modal" data-target="#education_info"><i class="fa fa-pencil"></i></a></h3>
                                     <small class="block text-ellipsis m-b-15">
-                                        <span class="text-xs">1</span> <span class="text-muted">open tasks, </span>
-                                        <span class="text-xs">9</span> <span class="text-muted">tasks completed</span>
+                                        @if ($Abslogs->count() > 0)
+                                             <span class="text-xs">{{ $Abslogs[0]->total }}</span> <span class="text-muted">Total An</span>
+                                        @endif 
                                     </small>
-                                    <p class="text-muted">Lorem Ipsum is simply dummy text of the printing and
-                                        typesetting industry. When an unknown printer took a galley of type and
-                                        scrambled it...
-                                    </p>
-                                    <div class="pro-deadline m-b-15">
-                                        <div class="sub-title">
-                                            Deadline:
-                                        </div>
-                                        <div class="text-muted">
-                                            17 Apr 2019
-                                        </div>
-                                    </div>
-                                    <div class="project-members m-b-15">
-                                        <div>Project Leader :</div>
-                                        <ul class="team-members">
+                                    <div class="experience-box">
+                                        <ul class="experience-list">
+                                        @if (!empty($Abslogs))
+                                            @foreach ($Abslogs as $absence)
                                             <li>
-                                                <a href="#" data-toggle="tooltip" title="Jeffery Lalor"><img alt="" src="assets/img/profiles/avatar-16.jpg"></a>
+                                                <div class="experience-user">
+                                                    <div class="before-circle"></div>
+                                                </div>
+                                                <div class="experience-content">
+                                                    <div class="timeline-content">
+                                                        <a href="#/" class="name">{{ $absence->libelle }}</a>
+                                                        <div>Nombre de jours: {{ $absence->nbre_jours }}</div>
+                                                        <span class="time">{{ $absence->date_debut }} - {{ $absence->date_debut }}</span>
+                                                    </div>
+                                                </div>
                                             </li>
+                                            @endforeach
+                                        @endif
                                         </ul>
-                                    </div>
-                                    <div class="project-members m-b-15">
-                                        <div>Team :</div>
-                                        <ul class="team-members">
-                                            <li>
-                                                <a href="#" data-toggle="tooltip" title="John Doe"><img alt="" src="assets/img/profiles/avatar-02.jpg"></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" data-toggle="tooltip" title="Richard Miles"><img alt="" src="assets/img/profiles/avatar-09.jpg"></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" data-toggle="tooltip" title="John Smith"><img alt="" src="assets/img/profiles/avatar-10.jpg"></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" data-toggle="tooltip" title="Mike Litorus"><img alt="" src="assets/img/profiles/avatar-05.jpg"></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="all-users">+15</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <p class="m-b-5">Progress <span class="text-success float-right">40%</span></p>
-                                    <div class="progress progress-xs mb-0">
-                                        <div style="width: 40%" title="" data-toggle="tooltip" role="progressbar" class="progress-bar bg-success" data-original-title="40%"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
+                        <div class="col-lg-4 col-sm-6 col-md-4 col-xl-4">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="dropdown profile-action">
@@ -357,180 +323,64 @@
                                             <a data-target="#delete_project" data-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
                                         </div>
                                     </div>
-                                    <h4 class="project-title"><a href="project-view.html">Project Management</a></h4>
+                                    <h4 class="project-title"><a href="project-view.html">Absences Maladies</a></h4>
                                     <small class="block text-ellipsis m-b-15">
-                                        <span class="text-xs">2</span> <span class="text-muted">open tasks, </span>
-                                        <span class="text-xs">5</span> <span class="text-muted">tasks completed</span>
+                                        @if ($Mallogs->count() > 0)
+                                            <span class="text-xs">{{ $Mallogs[0]->total }}</span> <span class="text-muted">Total An</span>
+                                        @endif
                                     </small>
-                                    <p class="text-muted">Lorem Ipsum is simply dummy text of the printing and
-                                        typesetting industry. When an unknown printer took a galley of type and
-                                        scrambled it...
-                                    </p>
-                                    <div class="pro-deadline m-b-15">
-                                        <div class="sub-title">
-                                            Deadline:
-                                        </div>
-                                        <div class="text-muted">
-                                            17 Apr 2019
-                                        </div>
-                                    </div>
-                                    <div class="project-members m-b-15">
-                                        <div>Project Leader :</div>
-                                        <ul class="team-members">
+                                    <div class="experience-box">
+                                        <ul class="experience-list">
+                                        @if (!empty($Mallogs))
+                                            @foreach ($Mallogs as $maladie)
                                             <li>
-                                                <a href="#" data-toggle="tooltip" title="Jeffery Lalor"><img alt="" src="assets/img/profiles/avatar-16.jpg"></a>
+                                                <div class="experience-user">
+                                                    <div class="before-circle"></div>
+                                                </div>
+                                                <div class="experience-content">
+                                                    <div class="timeline-content">
+                                                        <a href="#/" class="name">{{ $maladie->libelle }}</a>
+                                                        <div>Nombre de jours: {{ $maladie->nbre_jours }}</div>
+                                                        <span class="time">{{ $maladie->date_debut }} - {{ $maladie->date_debut }}</span>
+                                                    </div>
+                                                </div>
                                             </li>
+                                            @endforeach
+                                        @endif
                                         </ul>
-                                    </div>
-                                    <div class="project-members m-b-15">
-                                        <div>Team :</div>
-                                        <ul class="team-members">
-                                            <li>
-                                                <a href="#" data-toggle="tooltip" title="John Doe"><img alt="" src="assets/img/profiles/avatar-02.jpg"></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" data-toggle="tooltip" title="Richard Miles"><img alt="" src="assets/img/profiles/avatar-09.jpg"></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" data-toggle="tooltip" title="John Smith"><img alt="" src="assets/img/profiles/avatar-10.jpg"></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" data-toggle="tooltip" title="Mike Litorus"><img alt="" src="assets/img/profiles/avatar-05.jpg"></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="all-users">+15</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <p class="m-b-5">Progress <span class="text-success float-right">40%</span></p>
-                                    <div class="progress progress-xs mb-0">
-                                        <div style="width: 40%" title="" data-toggle="tooltip" role="progressbar" class="progress-bar bg-success" data-original-title="40%"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
+                        <div class="col-lg-4 col-sm-6 col-md-4 col-xl-4">
                             <div class="card">
                                 <div class="card-body">
-                                    <div class="dropdown profile-action">
-                                        <a aria-expanded="false" data-toggle="dropdown" class="action-icon dropdown-toggle" href="#"><i class="material-icons">more_vert</i></a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a data-target="#edit_project" data-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                            <a data-target="#delete_project" data-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                                        </div>
-                                    </div>
-                                    <h4 class="project-title"><a href="project-view.html">Video Calling App</a></h4>
+                                    <h4 class="project-title"><a href="project-view.html">Conges Annuels</a></h4>
                                     <small class="block text-ellipsis m-b-15">
-                                        <span class="text-xs">3</span> <span class="text-muted">open tasks, </span>
-                                        <span class="text-xs">3</span> <span class="text-muted">tasks completed</span>
+                                        @if ($Anlogs->count() > 0)
+                                            <span class="text-xs">{{ $Anlogs[0]->total }}</span> <span class="text-muted">Total An</span>
+                                        @endif
                                     </small>
-                                    <p class="text-muted">Lorem Ipsum is simply dummy text of the printing and
-                                        typesetting industry. When an unknown printer took a galley of type and
-                                        scrambled it...
-                                    </p>
-                                    <div class="pro-deadline m-b-15">
-                                        <div class="sub-title">
-                                            Deadline:
-                                        </div>
-                                        <div class="text-muted">
-                                            17 Apr 2019
-                                        </div>
-                                    </div>
-                                    <div class="project-members m-b-15">
-                                        <div>Project Leader :</div>
-                                        <ul class="team-members">
+                                    <div class="experience-box">
+                                        <ul class="experience-list">
+                                        @if (!empty($Anlogs))
+                                            @foreach ($Anlogs as $conge)
                                             <li>
-                                                <a href="#" data-toggle="tooltip" title="Jeffery Lalor"><img alt="" src="assets/img/profiles/avatar-16.jpg"></a>
+                                                <div class="experience-user">
+                                                    <div class="before-circle"></div>
+                                                </div>
+                                                <div class="experience-content">
+                                                    <div class="timeline-content">
+                                                        <a href="#/" class="name">{{ $conge->libelle }}</a>
+                                                        <div>Nombre de jours: {{ $conge->nbre_jours }}</div>
+                                                        <span class="time">{{ $conge->date_debut }} - {{ $conge->date_debut }}</span>
+                                                    </div>
+                                                </div>
                                             </li>
+                                            @endforeach
+                                        @endif
                                         </ul>
-                                    </div>
-                                    <div class="project-members m-b-15">
-                                        <div>Team :</div>
-                                        <ul class="team-members">
-                                            <li>
-                                                <a href="#" data-toggle="tooltip" title="John Doe"><img alt="" src="assets/img/profiles/avatar-02.jpg"></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" data-toggle="tooltip" title="Richard Miles"><img alt="" src="assets/img/profiles/avatar-09.jpg"></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" data-toggle="tooltip" title="John Smith"><img alt="" src="assets/img/profiles/avatar-10.jpg"></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" data-toggle="tooltip" title="Mike Litorus"><img alt="" src="assets/img/profiles/avatar-05.jpg"></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="all-users">+15</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <p class="m-b-5">Progress <span class="text-success float-right">40%</span></p>
-                                    <div class="progress progress-xs mb-0">
-                                        <div style="width: 40%" title="" data-toggle="tooltip" role="progressbar" class="progress-bar bg-success" data-original-title="40%"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-lg-4 col-sm-6 col-md-4 col-xl-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="dropdown profile-action">
-                                        <a aria-expanded="false" data-toggle="dropdown" class="action-icon dropdown-toggle" href="#"><i class="material-icons">more_vert</i></a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a data-target="#edit_project" data-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                            <a data-target="#delete_project" data-toggle="modal" href="#" class="dropdown-item"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                                        </div>
-                                    </div>
-                                    <h4 class="project-title"><a href="project-view.html">Hospital Administration</a></h4>
-                                    <small class="block text-ellipsis m-b-15">
-                                        <span class="text-xs">12</span> <span class="text-muted">open tasks, </span>
-                                        <span class="text-xs">4</span> <span class="text-muted">tasks completed</span>
-                                    </small>
-                                    <p class="text-muted">Lorem Ipsum is simply dummy text of the printing and
-                                        typesetting industry. When an unknown printer took a galley of type and
-                                        scrambled it...
-                                    </p>
-                                    <div class="pro-deadline m-b-15">
-                                        <div class="sub-title">
-                                            Deadline:
-                                        </div>
-                                        <div class="text-muted">
-                                            17 Apr 2019
-                                        </div>
-                                    </div>
-                                    <div class="project-members m-b-15">
-                                        <div>Project Leader :</div>
-                                        <ul class="team-members">
-                                            <li>
-                                                <a href="#" data-toggle="tooltip" title="Jeffery Lalor"><img alt="" src="assets/img/profiles/avatar-16.jpg"></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="project-members m-b-15">
-                                        <div>Team :</div>
-                                        <ul class="team-members">
-                                            <li>
-                                                <a href="#" data-toggle="tooltip" title="John Doe"><img alt="" src="assets/img/profiles/avatar-02.jpg"></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" data-toggle="tooltip" title="Richard Miles"><img alt="" src="assets/img/profiles/avatar-09.jpg"></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" data-toggle="tooltip" title="John Smith"><img alt="" src="assets/img/profiles/avatar-10.jpg"></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" data-toggle="tooltip" title="Mike Litorus"><img alt="" src="assets/img/profiles/avatar-05.jpg"></a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="all-users">+15</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <p class="m-b-5">Progress <span class="text-success float-right">40%</span></p>
-                                    <div class="progress progress-xs mb-0">
-                                        <div style="width: 40%" title="" data-toggle="tooltip" role="progressbar" class="progress-bar bg-success" data-original-title="40%"></div>
                                     </div>
                                 </div>
                             </div>
@@ -803,9 +653,9 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Genre</label>
-                                                <select class="select form-control" id="gender" name="genre">
+                                                <select class="select form-control" id="genre" name="genre">
                                                     @if(!empty($employers))
-                                                        <option value="{{ $employers->genre }}" {{ ( $employers->genre == $employers->genre) ? 'selected' : '' }}>{{ $employers->gender }} </option>
+                                                        <option value="{{ $employers->genre }}" {{ ( $employers->genre == $employers->genre) ? 'selected' : '' }}>{{ $employers->genre }} </option>
                                                         <option value="Male">Male</option>
                                                         <option value="Female">Female</option>
                                                     @else
@@ -866,7 +716,7 @@
                                         <label>Departement <span class="text-danger">*</span></label>
                                         <select class="select" id="department" name="department">
                                             @if(!empty($employers))
-                                                <option value="{{ $employers->departement }}" {{ ( $employers->departement == $employers->departement) ? 'selected' : '' }}>{{ $employers->telephone }} </option>
+                                                <option value="{{ $employers->departement }}" {{ ( $employers->departement == $employers->departement) ? 'selected' : '' }}>{{ $employers->departement }} </option>
                                                 <option value="Web Development">Web Development</option>
                                                 <option value="IT Management">IT Management</option>
                                                 <option value="Marketing">Marketing</option>
