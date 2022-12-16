@@ -286,7 +286,7 @@
                                     <h3 class="card-title">Autres Absences<a href="#" class="edit-icon" data-toggle="modal" data-target="#education_info"><i class="fa fa-pencil"></i></a></h3>
                                     <small class="block text-ellipsis m-b-15">
                                         @if ($Abslogs->count() > 0)
-                                             <span class="text-xs">{{ $Abslogs[0]->total }}</span> <span class="text-muted">Total An</span>
+                                            <span class="text-xs">{{ $Abslogs[0]->total }}</span> <span class="text-muted">Total An</span>
                                         @endif 
                                     </small>
                                     <div class="experience-box">
@@ -358,7 +358,7 @@
                                 <div class="card-body">
                                     <h4 class="project-title"><a href="project-view.html">Conges Annuels</a></h4>
                                     <small class="block text-ellipsis m-b-15">
-                                        @if ($Anlogs->count() > 0)
+                                        @if (!empty($Anlogs))
                                             <span class="text-xs">{{ $Anlogs[0]->total }}</span> <span class="text-muted">Total An</span>
                                         @endif
                                     </small>
