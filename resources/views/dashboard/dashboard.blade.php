@@ -20,7 +20,7 @@
                     <div class="card dash-widget">
                         <div class="card-body"> <span class="dash-widget-icon"><i class="fa fa-cubes"></i></span>
                             <div class="dash-widget-info">
-                                <h3>112</h3> <span>Projects</span>
+                                <h3>112</h3> <span>Projets</span>
                             </div>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                     <div class="card dash-widget">
                         <div class="card-body"> <span class="dash-widget-icon"><i class="fa fa-user"></i></span>
                             <div class="dash-widget-info">
-                                <h3>218</h3> <span>Employees</span>
+                                <h3>218</h3> <span>Employes</span>
                             </div>
                         </div>
                     </div>
