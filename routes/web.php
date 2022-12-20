@@ -79,6 +79,16 @@ Route::controller(UserManagementController::class)->group(function () {
     Route::get('profile_user', 'profile')->middleware('auth')->name('profile_user');
     Route::post('profile/information/save', 'profileInformation')->name('profile/information/save');    
 });
+// ----------------------------- user userManagement -----------------------//
+Route::controller(UserManagementController::class)->group(function () {
+    Route::get('userManagement', 'index')->middleware('auth')->name('userManagement');
+    Route::post('user/add/save', 'addNewUserSave')->name('user/add/save');
+    Route::post('search/user/list', 'searchUser')->name('search/user/list');
+    Route::post('update', 'update')->name('update');
+    Route::post('user/delete', 'delete')->middleware('auth')->name('user/delete');
+    Route::get('activity/log', 'activityLog')->middleware('auth')->name('activity/log');
+    Route::get('activity/login/logout', 'activityLogInLogOut')->middleware('auth')->name('activity/login/logout');    
+});
 // -----------------------------settings----------------------------------------//
 Route::controller(SettingController::class)->group(function () {
     Route::get('company/settings/page', 'companySettings')->middleware('auth')->name('company/settings/page');
