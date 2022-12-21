@@ -13,7 +13,7 @@
                         <span> Tableau de bord</span> <span class="menu-arrow"></span>
                     </a>
                     <ul style="{{ request()->is('/*') ? 'display: block;' : 'display: none;' }}">
-                        <li><a class="{{set_active(['home'])}}" href="{{ route('home') }}">Admiistrateur</a></li>
+                        <li><a class="{{set_active(['home'])}}" href="{{ route('home') }}">Admistrateur</a></li>
                         <li><a class="{{set_active(['em/dashboard'])}}" href="{{ route('em/dashboard') }}">Employes</a></li>
                     </ul>
                 </li>
@@ -39,7 +39,7 @@
                     'form/leavesemployee/new','form/leavesettings/page','attendance/page',
                     'attendance/employee/page','form/departments/page','form/designations/page',
                     'form/timesheet/page','form/shiftscheduling/page','form/overtime/page']) ? 'noti-dot' : '' }}">
-                        <i class="la la-user"></i> <span> Employees</span> <span class="menu-arrow"></span>
+                        <i class="la la-user"></i> <span> Employes</span> <span class="menu-arrow"></span>
                     </a>
                     <ul style="{{ request()->is('/*') ? 'display: block;' : 'display: none;' }}">
                         <li><a class="{{set_active(['all/employee/list','all/employee/card'])}}" href="{{ route('all/employee/card') }}">Tous les employes</a></li>
