@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\EmployeController;
+use App\Http\Controllers\FeuillesAbsenceController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserManagementController;
 use Illuminate\Support\Facades\Auth;
@@ -141,8 +142,8 @@ Route::controller(HolidayController::class)->group(function () {
     Route::post('form/holidays/update', 'updateRecord')->middleware('auth')->name('form/holidays/update');    
 });
 // ----------------------------- form leaves ------------------------------//
-Route::controller(LeavesController::class)->group(function () {
-    Route::get('form/leaves/new', 'leaves')->middleware('auth')->name('form/leaves/new');
+Route::controller(FeuillesAbsenceController::class)->group(function () {
+    Route::get('form/leaves/new', 'liste_absences')->middleware('auth')->name('form/leaves/new');
     Route::get('form/leavesemployee/new', 'leavesEmployee')->middleware('auth')->name('form/leavesemployee/new');
     Route::post('form/leaves/save', 'saveRecord')->middleware('auth')->name('form/leaves/save');
     Route::post('form/leaves/edit', 'editRecordLeave')->middleware('auth')->name('form/leaves/edit');

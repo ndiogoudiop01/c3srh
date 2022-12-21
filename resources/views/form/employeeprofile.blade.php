@@ -32,7 +32,7 @@
                                     <div class="row">
                                         <div class="col-md-5">
                                             <div class="profile-info-left">
-                                                <h3 class="user-name m-t-0 mb-0">{{ $employer[0]->nom }}</h3>
+                                                <h3 class="user-name m-t-0 mb-0">{{ $employers->nom }}</h3>
                                                 <h6 class="text-muted">{{ $employer[0]->departement }}</h6>
                                                 <small class="text-muted">pOSITION</small>
                                                 <div class="staff-id">MATRICULE:  {{ $employer[0]->matricule }}</div>
@@ -358,7 +358,7 @@
                                 <div class="card-body">
                                     <h4 class="project-title"><a href="project-view.html">Conges Annuels</a></h4>
                                     <small class="block text-ellipsis m-b-15">
-                                        @if (!empty($Anlogs))
+                                        @if ($Anlogs->count()>0)
                                             <span class="text-xs">{{ $Anlogs[0]->total }}</span> <span class="text-muted">Total An</span>
                                         @endif
                                     </small>

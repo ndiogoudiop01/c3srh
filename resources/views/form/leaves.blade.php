@@ -54,7 +54,7 @@
                 <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">  
                     <div class="form-group form-focus">
                         <input type="text" class="form-control floating">
-                        <label class="focus-label">Employee Name</label>
+                        <label class="focus-label">Nom</label>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">  
@@ -65,7 +65,7 @@
                             <option>Medical Leave</option>
                             <option>Loss of Pay</option>
                         </select>
-                        <label class="focus-label">Leave Type</label>
+                        <label class="focus-label">Type Absence</label>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12"> 
@@ -76,7 +76,7 @@
                             <option> Approved </option>
                             <option> Rejected </option>
                         </select>
-                        <label class="focus-label">Leave Status</label>
+                        <label class="focus-label">Reaison</label>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">  
@@ -84,7 +84,7 @@
                         <div class="cal-icon">
                             <input class="form-control floating datetimepicker" type="text">
                         </div>
-                        <label class="focus-label">From</label>
+                        <label class="focus-label">De</label>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">  
@@ -92,11 +92,11 @@
                         <div class="cal-icon">
                             <input class="form-control floating datetimepicker" type="text">
                         </div>
-                        <label class="focus-label">To</label>
+                        <label class="focus-label">A</label>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-3 col-lg-3 col-xl-2 col-12">  
-                    <a href="#" class="btn btn-success btn-block"> Search </a>  
+                    <a href="#" class="btn btn-success btn-block"> Recherche </a>  
                 </div>     
             </div>
             <!-- /Search Filter -->
@@ -110,48 +110,34 @@
                         <table class="table table-striped custom-table mb-0 datatable">
                             <thead>
                                 <tr>
-                                    <th>Employee</th>
-                                    <th>Leave Type</th>
-                                    <th>From</th>
-                                    <th>To</th>
-                                    <th>No of Days</th>
-                                    <th>Reason</th>
-                                    <th class="text-center">Status</th>
+                                    <th>NOM COMPLET</th>
+                                    <th>Type Absence</th>
+                                    <th>De</th>
+                                    <th>A</th>
+                                    <th>Nbre de jours</th>
+                                    <th>Raisons</th>
                                     <th class="text-right">Actions</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                @if(!empty($leaves))
-                                    @foreach ($leaves as $items )  
+                                @if(!empty($liste_absence))
+                                    @foreach ($liste_absence as $items )  
                                         <tr>
                                             <td>
                                                 <h2 class="table-avatar">
-                                                    <a href="{{ url('employee/profile/'.$items->user_id) }}" class="avatar"><img alt="" src="{{ URL::to('/assets/images/'. $items->avatar) }}" alt="{{ $items->name }}"></a>
-                                                    <a href="#">{{ $items->name }}<span>{{ $items->position }}</span></a>
+                                                    <a href="{{ url('employee/profile/'.$items->matricule) }}" class="avatar"><img alt="" src="{{ URL::to('/assets/images/photo_defaults.jpg') }}" alt="{{ $items->nom }}"></a>
+                                                    <a href="#">{{ $items->nom }}<span>{{ $items->compagnie }}</span></a>
                                                 </h2>
                                             </td>
                                             <td hidden class="id">{{ $items->id }}</td>
-                                            <td class="leave_type">{{$items->leave_type}}</td>
-                                            <td hidden class="from_date">{{ $items->from_date }}</td>
-                                            <td>{{date('d F, Y',strtotime($items->from_date)) }}</td>
-                                            <td hidden class="to_date">{{$items->to_date}}</td>
-                                            <td>{{date('d F, Y',strtotime($items->to_date)) }}</td>
-                                            <td class="day">{{$items->day}} Day</td>
-                                            <td class="leave_reason">{{$items->leave_reason}}</td>
-                                            <td class="text-center">
-                                                <div class="dropdown action-label">
-                                                    <a class="btn btn-white btn-sm btn-rounded dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
-                                                        <i class="fa fa-dot-circle-o text-purple"></i> New
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-purple"></i> New</a>
-                                                        <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-info"></i> Pending</a>
-                                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#approve_leave"><i class="fa fa-dot-circle-o text-success"></i> Approved</a>
-                                                        <a class="dropdown-item" href="#"><i class="fa fa-dot-circle-o text-danger"></i> Declined</a>
-                                                    </div>
-                                                </div>
-                                            </td>
+                                            <td class="leave_type">{{$items->type_conge}}</td>
+                                            <td hidden class="from_date">{{ $items->date_debut }}</td>
+                                            <td>{{date('d F, Y',strtotime($items->date_debut)) }}</td>
+                                            <td hidden class="to_date">{{$items->date_fin}}</td>
+                                            <td>{{date('d F, Y',strtotime($items->date_fin)) }}</td>
+                                            <td class="day">{{$items->nbre_jours}} Jours</td>
+                                            <td class="leave_reason">{{$items->libelle}}</td>
                                             <td class="text-right">
                                                 <div class="dropdown dropdown-action">
                                                     <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
