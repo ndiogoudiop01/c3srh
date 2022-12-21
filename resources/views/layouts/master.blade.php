@@ -97,7 +97,7 @@
 				<!-- Flag -->
 				<li class="nav-item dropdown has-arrow flag-nav">
 					<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">
-						<img src="{{ URL::to('assets/img/flags/us.png') }}" alt="" height="20"> <span>English</span>
+						<img src="{{ URL::to('assets/img/flags/us.png') }}" alt="" height="20"> <span>Francais</span>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right">
 						<a href="javascript:void(0);" class="dropdown-item">
@@ -299,7 +299,7 @@
 				<li class="nav-item dropdown has-arrow main-drop">
 					<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
 						<span class="user-img">
-						<img src="{{ URL::to('/assets/images/'. Auth::user()->avatar) }}" alt="{{ Auth::user()->name }}">
+						<img src="{{ URL::to('/assets/images/photo_defaults.jpg') }}" alt="{{ Auth::user()->name }}">
 						<span class="status online"></span></span>
 						<span>{{ Session::get('name') }}</span>
 					</a>
