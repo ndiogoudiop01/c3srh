@@ -33,7 +33,7 @@ class EmployeController extends Controller
         $employeList = DB::table('users')->get();
         $typeconges = DB::table('type_conges')->get();
         $conges = DB::table('conges')->get();
-        $departement = DB::table('departement')->get();
+        $departement = DB::table('departements')->get();
         return view('form.allemployeecard', compact('employes', 'employeList', 'typeconges', 'conges', 'departement'));
     }
 
@@ -50,7 +50,7 @@ class EmployeController extends Controller
         $employeList = DB::table('users')->get();
         $typeconges = DB::table('type_conges')->get();
         $conges = DB::table('conges')->get();
-        $departement = DB::table('departement')->get();
+        $departement = DB::table('departements')->get();
         return view('form.allemployeecard', compact('employes', 'employeList', 'typeconges', 'conges', 'departement'));
     }
 
@@ -185,9 +185,12 @@ class EmployeController extends Controller
             $fin = $request->date_fin;
             $debut = strtotime($debut);
             $fin = strtotime($fin);
-            $nbre_jours= ceil(abs($fin - $debut) / 86400);
-            if ($conges === null)
-            {
+            if (!empty($request->nbre_jours)) {
+                $nbre_jours = $request->nbre_jours;
+            } else {
+                $nbre_jours= ceil(abs($fin - $debut) / 86400);
+            }
+           
 
                 $conge = new Conge();
                 $conge->matricule         = $request->matricule;
@@ -203,11 +206,8 @@ class EmployeController extends Controller
                 DB::commit();
                 Toastr::success(' Ajout reussie :)','Success');
                 return redirect()->route('all/employee/card');
-            } else {
-                DB::rollback();
-                Toastr::error('Add new employee exits :)','Error');
-                return redirect()->back();
-            }
+            
+            
         }catch(\Exception $e){
             DB::rollback();
             Toastr::error('Add new employee fail :)','Error');

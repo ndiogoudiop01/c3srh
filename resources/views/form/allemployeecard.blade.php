@@ -122,9 +122,8 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="col-form-label">Compagnie</label>
-                                        <select class="select select2s-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="company" name="company">
+                                        <select class="select select2s-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="company" name="compagnie">
                                             <option value="">-- Select --</option>
-                                            <select class="select form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" id="compagnie" name="compagnie">
                                             <option value="C3S YARAKH">C3S YARAKH</option>
                                             <option value="C3S SOPRIM">C3S SOPRIM</option>
                                             <option value="C3S PIKINE">C3S PIKINE</option>
@@ -154,6 +153,7 @@
                                             <th class="text-center">TYPE CONGE</th>
                                             <th class="text-center">DATE DEBUT</th>
                                             <th class="text-center">DATE FIN</th>
+                                            <th class="text-center">NOMBRE DE JOURS</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -175,7 +175,9 @@
                                             <td class="text-center">
                                                 <input type="date" class="" id="read" name="date_fin" value="" >
                                             </td>
-                                           
+                                           <td class="text-center">
+                                                <input type="text" class="" id="read" name="nbre_jours" value="" >
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
