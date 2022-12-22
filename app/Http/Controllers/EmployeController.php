@@ -97,8 +97,6 @@ class EmployeController extends Controller
         //dd($request->input());
        $request->validate([
         'nom'    => 'required|string|max:255',
-        'datenaissance' => 'required',
-        'telephone'     => 'required|string|max:100',
         'genre'         => 'required|string',
         'matricule'     => 'required'
        ]);

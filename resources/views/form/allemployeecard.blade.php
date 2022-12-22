@@ -199,19 +199,19 @@
                             
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label class="col-form-label">Date de naissance <span class="text-danger">*</span></label>
+                                        <label class="col-form-label">Date de naissance </label>
                                         <input class="form-control" type="text" id="datenaissance" name="datenaissance" placeholder="00/00/0000">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">  
                                     <div class="form-group">
-                                        <label class="col-form-label">Adresse <span class="text-danger">*</span></label>
+                                        <label class="col-form-label">Adresse </label>
                                         <input type="text" class="form-control" id="adresse" name="adresse" placeholder="Adresse" >
                                     </div>
                                 </div>
                                 <div class="col-sm-6">  
                                     <div class="form-group">
-                                        <label class="col-form-label">Telephone <span class="text-danger">*</span></label>
+                                        <label class="col-form-label">Telephone </label>
                                         <input type="text" class="form-control" id="telephone" name="telephone" placeholder="77 000 00 00/78 000 00 00/76 000 00 00/75 000 00 00" >
                                     </div>
                                 </div>
