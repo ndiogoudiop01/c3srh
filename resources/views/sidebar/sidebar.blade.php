@@ -31,19 +31,17 @@
                     </li>
                 @endif
                 <li class="menu-title"> <span>Employes</span> </li>
-                <li class="{{set_active(['all/employee/list','all/employee/list','all/employee/card','form/holidays/new','form/leaves/new',
+                <li class="{{set_active(['all/employee/list','all/employee/list','all/employee/card', 'form/leaves/new',
                     'form/leavesemployee/new','form/leavesettings/page','attendance/page',
-                    'attendance/employee/page','form/departments/page','form/designations/page',
-                    'form/timesheet/page','form/shiftscheduling/page','form/overtime/page'])}} submenu">
-                    <a href="#" class="{{ set_active(['all/employee/list','all/employee/card','form/holidays/new','form/leaves/new',
+                    'attendance/employee/page','form/departments/page'])}} submenu">
+                    <a href="#" class="{{ set_active(['all/employee/list','all/employee/card','form/leaves/new',
                     'form/leavesemployee/new','form/leavesettings/page','attendance/page',
-                    'attendance/employee/page','form/departments/page','form/designations/page',
-                    'form/timesheet/page','form/shiftscheduling/page','form/overtime/page']) ? 'noti-dot' : '' }}">
+                    'attendance/employee/page','form/departments/page']) ? 'noti-dot' : '' }}">
                         <i class="la la-user"></i> <span> Employes</span> <span class="menu-arrow"></span>
                     </a>
                     <ul style="{{ request()->is('/*') ? 'display: block;' : 'display: none;' }}">
                         <li><a class="{{set_active(['all/employee/list','all/employee/card'])}}" href="{{ route('all/employee/card') }}">Tous les employes</a></li>
-                        <li><a class="{{set_active(['form/leavesemployee/new'])}}" href="{{route('form/leavesemployee/new')}}">Feuilles Absences</a></li>
+                        <li><a class="{{set_active(['form/leaves/new'])}}" href="{{route('form/leaves/new')}}">Feuilles Absences</a></li>
                         <li><a class="{{set_active(['form/departments/page'])}}" href="{{ route('form/departments/page') }}">Departements</a></li>
                     </ul>
                 </li>

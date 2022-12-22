@@ -144,6 +144,7 @@ Route::controller(HolidayController::class)->group(function () {
 // ----------------------------- form leaves ------------------------------//
 Route::controller(FeuillesAbsenceController::class)->group(function () {
     Route::get('form/leaves/new', 'liste_absences')->middleware('auth')->name('form/leaves/new');
+    Route::post('form/leave/search', 'absenceSearch')->name('form/leave/search');
     Route::get('form/leavesemployee/new', 'leavesEmployee')->middleware('auth')->name('form/leavesemployee/new');
     Route::post('form/leaves/save', 'saveRecord')->middleware('auth')->name('form/leaves/save');
     Route::post('form/leaves/edit', 'editRecordLeave')->middleware('auth')->name('form/leaves/edit');

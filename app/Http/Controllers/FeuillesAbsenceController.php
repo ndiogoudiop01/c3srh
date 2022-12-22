@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Conge;
+use Brian2694\Toastr\Facades\Toastr;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,6 +17,84 @@ class FeuillesAbsenceController extends Controller
                          ->join('employes', 'employes.matricule', '=', 'conges.matricule')
                          ->select('conges.*', 'employes.nom', 'employes.compagnie')
                          ->get();
+        return view('form.leaves', compact('liste_absence'));
+    }
+
+    //recherche
+    public function absenceSearch(Request $request)
+    {
+        $liste_absence= DB::table('conges')
+                         ->join('employes', 'employes.matricule', '=', 'conges.matricule')
+                         ->select('conges.*', 'employes.nom', 'employes.compagnie')
+                         ->get();
+        //recherche par nom
+        if($request->nom)
+        {
+            $liste_absence= DB::table('conges')
+                      ->join('employes', 'conges.matricule', '=', 'employes.matricule')
+                      ->select('conges.*', 'employes.nom', 'employes.compagnie')
+                      ->where('employes.nom', 'LIKE', '%'.$request->nom.'%')
+                      ->get();
+        }
+        //recherche par Type Absence
+        if($request->type_conge)
+        {
+            $liste_absence= DB::table('conges')
+                      ->join('employes', 'conges.matricule', '=', 'employes.matricule')
+                      ->select('conges.*', 'employes.nom', 'employes.compagnie')
+                      ->where('conges.type_conge', 'LIKE', '%'.$request->type_conge.'%')
+                      ->get();
+        }
+        //recherche par matricule
+        if($request->matricule)
+        {
+            $liste_absence= DB::table('conges')
+                      ->join('employes', 'conges.matricule', '=', 'employes.matricule')
+                      ->select('conges.*', 'employes.nom', 'employes.compagnie')
+                      ->where('employes.matricule', '=', $request->matricule)
+                      ->get();
+        }
+        //recherche par nom & matricule & type conges
+        if($request->nom && $request->matricule && $request->type_conge)
+        {
+            $liste_absence= DB::table('conges')
+                      ->join('employes', 'conges.matricule', '=', 'employes.matricule')
+                      ->select('conges.*', 'employes.nom', 'employes.compagnie')
+                      ->where('employes.nom', 'LIKE', '%'.$request->nom.'%')
+                      ->where('conges.matricule', 'LIKE', '%'.$request->matricule.'%')
+                      ->where('conges.type_conge', 'LIKE', '%'.$request->type_conge.'%')
+                      ->get();
+        }
+        //recherche par nom & matricule 
+        if($request->nom && $request->matricule)
+        {
+            $liste_absence= DB::table('conges')
+                      ->join('employes', 'conges.matricule', '=', 'employes.matricule')
+                      ->select('conges.*', 'employes.nom', 'employes.compagnie')
+                      ->where('employes.nom', 'LIKE', '%'.$request->nom.'%')
+                      ->where('conges.matricule', 'LIKE', '%'.$request->matricule.'%')
+                      ->get();
+        }
+        //recherche par matricule & type conges
+        if($request->matricule && $request->type_conge)
+        {
+            $liste_absence= DB::table('conges')
+                      ->join('employes', 'conges.matricule', '=', 'employes.matricule')
+                      ->select('conges.*', 'employes.nom', 'employes.compagnie')
+                      ->where('conges.matricule', 'LIKE', '%'.$request->matricule.'%')
+                      ->where('conges.type_conge', 'LIKE', '%'.$request->type_conge.'%')
+                      ->get();
+        }
+        //recherche par nom & type conges
+        if($request->nom  && $request->type_conge)
+        {
+            $liste_absence= DB::table('conges')
+                      ->join('employes', 'conges.matricule', '=', 'employes.matricule')
+                      ->select('conges.*', 'employes.nom', 'employes.compagnie')
+                      ->where('employes.nom', 'LIKE', '%'.$request->nom.'%')
+                      ->where('conges.type_conge', 'LIKE', '%'.$request->type_conge.'%')
+                      ->get();
+        }
         return view('form.leaves', compact('liste_absence'));
     }
 
@@ -35,7 +116,7 @@ class FeuillesAbsenceController extends Controller
             $day     = $from_date->diff($to_date);
             $days    = $day->d;
 
-            $leaves = new LeavesAdmin;
+            $leaves = new Conge();
             $leaves->user_id        = $request->user_id;
             $leaves->leave_type    = $request->leave_type;
             $leaves->from_date     = $request->from_date;
@@ -74,7 +155,7 @@ class FeuillesAbsenceController extends Controller
                 'leave_reason' => $request->leave_reason,
             ];
 
-            LeavesAdmin::where('id',$request->id)->update($update);
+            Conge::where('id',$request->id)->update($update);
             DB::commit();
             Toastr::success('Updated Leaves successfully :)','Success');
             return redirect()->back();
@@ -90,7 +171,7 @@ class FeuillesAbsenceController extends Controller
     {
         try {
 
-            LeavesAdmin::destroy($request->id);
+            Conge::destroy($request->id);
             Toastr::success('Leaves admin deleted successfully :)','Success');
             return redirect()->back();
         
