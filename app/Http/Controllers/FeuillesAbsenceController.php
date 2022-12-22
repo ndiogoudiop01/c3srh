@@ -13,7 +13,7 @@ class FeuillesAbsenceController extends Controller
     //Les absences
     public function liste_absences()
     {
-        $liste_absence = DB::table('employes')
+        $liste_absence = DB::table('conges')
                          ->join('employes', 'employes.matricule', '=', 'conges.matricule')
                          ->select('conges.*', 'employes.nom', 'employes.compagnie')
                          ->get();
