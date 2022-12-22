@@ -86,7 +86,7 @@
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Add Employee</h5>
+                        <h5 class="modal-title">Ajouet Absence</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -97,7 +97,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label class="col-form-label">Full Name</label>
+                                        <label class="col-form-label">NOM COMPLET</label>
                                         <select class="select select2s-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="name" name="nom">
                                             <option value="">-- Select --</option>
                                             @foreach ($employeList as $key=>$user )
@@ -124,9 +124,23 @@
                                         <label class="col-form-label">Compagnie</label>
                                         <select class="select select2s-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" id="company" name="company">
                                             <option value="">-- Select --</option>
-                                            @foreach ($employeList as $key=>$user )
-                                                <option value="{{ $user->name }}">{{ $user->name }}</option>
-                                            @endforeach
+                                            <select class="select form-control" style="width: 100%;" tabindex="-1" aria-hidden="true" id="compagnie" name="compagnie">
+                                            <option value="C3S YARAKH">C3S YARAKH</option>
+                                            <option value="C3S SOPRIM">C3S SOPRIM</option>
+                                            <option value="C3S PIKINE">C3S PIKINE</option>
+                                            <option value="C3S KEUR MASSAR">C3S KEUR MASSAR</option>
+                                            <option value="C3S RUFISQUE">C3S RUFISQUE</option>
+                                            <option value="C3S Kaolack">C3S Kaolack</option>
+                                            <option value="C3S Mbour">C3S Mbour</option>
+                                            <option value="C3S THIES">C3S THIES</option>
+                                            <option value="C3S TOUBA CORNICHE">C3S TOUBA CORNICHE</option>
+                                            <option value="C3S TOUBA DAARA">C3S TOUBA DAARA</option>
+                                            <option value="C3S TOUBA KHAIRA">C3S TOUBA KHAIRA</option>
+                                            <option value="C3S LOUGA">C3S LOUGA</option>
+                                            <option value="C3S ST LOUIS">C3S ST LOUIS</option>
+                                            <option value="C3S OUROSSOGUI">C3S OUROSSOGUI</option>
+                                            <option value="C3S TAMACOUNDA"> C3S TAMACOUNDA</option>
+                                            <option value="C3S ZIGUINCHOR">C3S ZIGUINCHOR</option>
                                         </select>
                                     </div>
                                 </div>

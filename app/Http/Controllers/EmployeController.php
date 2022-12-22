@@ -33,7 +33,8 @@ class EmployeController extends Controller
         $employeList = DB::table('users')->get();
         $typeconges = DB::table('type_conges')->get();
         $conges = DB::table('conges')->get();
-        return view('form.allemployeecard', compact('employes', 'employeList', 'typeconges', 'conges'));
+        $departement = DB::table('departement')->get();
+        return view('form.allemployeecard', compact('employes', 'employeList', 'typeconges', 'conges', 'departement'));
     }
 
     /**
@@ -49,7 +50,8 @@ class EmployeController extends Controller
         $employeList = DB::table('users')->get();
         $typeconges = DB::table('type_conges')->get();
         $conges = DB::table('conges')->get();
-        return view('form.allemployeecard', compact('employes', 'employeList', 'typeconges', 'conges'));
+        $departement = DB::table('departement')->get();
+        return view('form.allemployeecard', compact('employes', 'employeList', 'typeconges', 'conges', 'departement'));
     }
 
     // employee profile with all controller user
@@ -170,8 +172,6 @@ class EmployeController extends Controller
             'matricule'        => 'required|string|max:255',
             'libelle'          => 'required|string|max:255',
             'type_conge'       => 'required|string|max:255',
-            'date_debut'       => 'required',
-            'date_fin'         => 'required',
         ]);
         
         DB::beginTransaction();
