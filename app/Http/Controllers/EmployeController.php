@@ -32,7 +32,7 @@ class EmployeController extends Controller
                        ->get();
         $employeList = DB::table('users')->get();
         $typeconges = DB::table('type_conges')->get();
-        $conges = DB::table('conges')->get();
+        $conges = DB::table('conges')->join('employes', 'employes.matricule', '=', 'conges.matricule')->get();
         $departement = DB::table('departements')->get();
         return view('form.allemployeecard', compact('employes', 'employeList', 'typeconges', 'conges', 'departement'));
     }
@@ -172,34 +172,84 @@ class EmployeController extends Controller
             'matricule'        => 'required|string|max:255',
             'libelle'          => 'required|string|max:255',
             'type_conge'       => 'required|string|max:255',
-        ]);
-        
+        ]); 
+        $conges = Conge::where('matricule', '=',$request->matricule)->latest('date_debut')->first();
         DB::beginTransaction();
         try{
 
-            $conges = Conge::where('matricule', '=',$request->matricule)->first();
+            
             $user = Auth::User();
             /**CONVERSION DATETIME */
-            //echo $request->date_debut;
-            $debut = $request->date_debut;
-            $fin = $request->date_fin;
-            $debut = strtotime($debut);
-            $fin = strtotime($fin);
-            if (!empty($request->nbre_jours)) {
-                $nbre_jours = $request->nbre_jours;
-            } else {
-                $nbre_jours= ceil(abs($fin - $debut) / 86400);
-            }
-           
+            $date=Carbon::now();
+            $now = $date->format('Y-m-d');
+            $conge = new Conge();
 
-                $conge = new Conge();
+            if ($conges != null) {
+                
+                // $created = new \DateTime();
+                $created=new \DateTime($conges->date_debut);
+                $created = $created->format('Y-m-d');
+                $days = (int)$conges->nbre_jours;
+                
+                if($created == $request->date_debut){
+                   
+                    if (!empty($request->nbre_jours)) {
+                        $nbre_jours = $request->nbre_jours+$days;
+                        $debut = $request->date_debut;
+                        $fin = $request->date_fin;
+                    } else {
+                        $debut = $request->date_debut;
+                        $fin = $request->date_fin;
+                        $debut = strtotime($debut);
+                        $fin = strtotime($fin);
+                        $nbre_jours= ceil(abs($fin - $debut) / 86400)+$days;        
+                    }
+                }else{
+                    if (!empty($request->nbre_jours)) {
+                        $nbre_jours = $request->nbre_jours;
+                        $debut = $request->date_debut;
+                        $fin = $request->date_fin;
+                    } else {
+                        $debut = $request->date_debut;
+                        $fin = $request->date_fin;
+                        $debut = strtotime($debut);
+                        $fin = strtotime($fin);
+                        $nbre_jours= ceil(abs($fin - $debut) / 86400);
+                    }
+                }
                 $conge->matricule         = $request->matricule;
                 $conge->libelle           = $request->libelle;
                 $conge->type_conge        = $request->type_conge;
                 $conge->user_id           = $user->id;
-                $conge->date_debut        = $request->date_debut;
-                $conge->date_fin          = $request->date_fin;
+                $conge->date_debut        = $debut;
+                $conge->date_fin          = $fin;
                 $conge->nbre_jours        = $nbre_jours;
+            }else{
+               
+                if (!empty($request->nbre_jours)) {
+                    $nbre_jours = $request->nbre_jours;
+                    $debut = Carbon::now();
+                    $fin = Carbon::now();
+                } else {
+                    $debut = $request->date_debut;
+                    $fin = $request->date_fin;
+                    $debut = strtotime($debut);
+                    $fin = strtotime($fin);
+                    $nbre_jours= ceil(abs($fin - $debut) / 86400);
+                }
+
+                $conge->matricule         = $request->matricule;
+                $conge->libelle           = $request->libelle;
+                $conge->type_conge        = $request->type_conge;
+                $conge->user_id           = $user->id;
+                $conge->date_debut        = $debut;
+                $conge->date_fin          = $fin;
+                $conge->nbre_jours        = $nbre_jours;
+            }
+            
+
+                
+               
                 
                 $conge->save();
                 

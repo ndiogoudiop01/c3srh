@@ -72,7 +72,8 @@
                                 <a class="dropdown-item" href="{{url('all/employee/delete/'.$lists->user_id)}}"onclick="return confirm('Are you sure to want to delete it?')"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
                             </div>
                         </div>
-                        <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="profile.html">{{ $lists->libelle }}</a></h4>
+                        <h4 class="user-name m-t-10 mb-0 text-ellipsis"><a href="profile.html">{{ $lists->nom }}</a></h4>
+                        <div class="small text-muted">{{ $lists->libelle }}</div>
                         <div class="small text-muted">{{ $lists->nbre_jours }}</div>
                     </div>
                 </div>
