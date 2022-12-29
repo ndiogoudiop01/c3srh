@@ -32,7 +32,6 @@ class FeuillesAbsenceController extends Controller
         $liste_absence= DB::table('conges')
                          ->join('employes', 'employes.matricule', '=', 'conges.matricule')
                          ->select('conges.*', 'employes.nom', 'employes.compagnie')
-                         ->groupBy('conges.id')
                          ->get();
         //recherche par nom
         if($request->nom)
