@@ -13,19 +13,26 @@ class FeuillesAbsenceController extends Controller
     //Les absences
     public function liste_absences()
     {
+        $total_absence = DB::table('conges')->get()->sum("nbre_jours");
+        $total_employe = DB::table('employes')->get()->count('id');
+        $employeList = DB::table('employes')->get();
         $liste_absence = DB::table('conges')
                          ->join('employes', 'employes.matricule', '=', 'conges.matricule')
-                         ->select('conges.*', 'employes.nom', 'employes.compagnie')
+                         ->select('conges.id', 'conges.matricule', 'conges.libelle', 'conges.type_conge', 'conges.date_debut', 'conges.date_fin','conges.nbre_jours', DB::raw('SUM(conges.nbre_jours) as days'),'employes.nom', 'employes.compagnie')
+                         ->groupBy('conges.id', 'employes.id')
                          ->get();
-        return view('form.leaves', compact('liste_absence'));
+        return view('form.leaves', compact('liste_absence', 'total_absence', 'total_employe', 'employeList'));
     }
 
     //recherche
     public function absenceSearch(Request $request)
     {
+        $total_absence = DB::table('conges')->get()->sum("nbre_jours");
+        
         $liste_absence= DB::table('conges')
                          ->join('employes', 'employes.matricule', '=', 'conges.matricule')
                          ->select('conges.*', 'employes.nom', 'employes.compagnie')
+                         ->groupBy('conges.matricule')
                          ->get();
         //recherche par nom
         if($request->nom)
@@ -95,7 +102,7 @@ class FeuillesAbsenceController extends Controller
                       ->where('conges.type_conge', 'LIKE', '%'.$request->type_conge.'%')
                       ->get();
         }
-        return view('form.leaves', compact('liste_absence'));
+        return view('form.leaves', compact('liste_absence', 'total_absence'));
     }
 
     // save record

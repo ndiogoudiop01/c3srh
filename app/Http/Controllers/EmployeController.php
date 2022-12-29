@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Departement;
 use App\Models\PersonnelInformation;
+use App\Models\Tracabilite;
 use DateTime;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -123,22 +124,23 @@ class EmployeController extends Controller
                 //dd($employe);
 
                 $infos = new PersonnelInformation();
-                $infos->matricule = $request->matricule;
-                $infos->user_id = $user->id;
-                $infos->cin = $request->cin;
-                $infos->passport = $request->passport;
-                $infos->nationalite = $request->nationalite;
+                $infos->matricule              = $request->matricule;
+                $infos->user_id                = $user->id;
+                $infos->cin                    = $request->cin;
+                $infos->passport               = $request->passport;
+                $infos->nationalite            = $request->nationalite;
                 $infos->situation_matrimoniale = $request->situation_matrimoniale;
-                $infos->nombre_epouse = $request->nombre_epouse;
-                $infos->nombre_enfant = $request->nombre_enfant;
-                $infos->ville = $request->ville;
+                $infos->nombre_epouse          = $request->nombre_epouse;
+                $infos->nombre_enfant          = $request->nombre_enfant;
+                $infos->ville                  = $request->ville;
                 $infos->save();
                 //dd($infos);
+
                 $user = new User();
-                $email  = $request->nom.'@c3s.sn';
-                $role_name  = 'Employee';
-                $status = 'Inactive';
-                $password = Hash::make('00'.$request->matricule);
+                $email                       = $request->nom.'@c3s.sn';
+                $role_name                   = 'Employee';
+                $status                      = 'Inactive';
+                $password                    = Hash::make('00'.$request->matricule);
                 $user->name                  = $request->nom;
                 $user->matricule             = $request->matricule;
                 $user->email                 = $email;
@@ -271,11 +273,51 @@ class EmployeController extends Controller
      * @param  \App\Models\Employe  $employe
      * @return \Illuminate\Http\Response
      */
-    public function show(Employe $employe)
+    public function showRecord($matricule)
     {
-        //
+        $user = Auth::User();
+        $employes = DB::table('employes')
+            ->join('personnel_information', 'employes.matricule', '=', 'personnel_information.matricule')
+            ->select('employes.*', 'personnel_information.*')
+            ->where('employes.matricule', '=', $matricule)
+            ->get();
+        return view('form.edit.editemployee', compact('employes', 'user'));
     }
 
+    public function updateRecord(Request $request)
+    {
+        $user = Auth::User();
+        $emp = Employe::where('matricule', '=',$request->matricule)->first();
+        DB::transaction();
+        try {
+            if($emp->nom != $request->nom)
+            {
+
+            }
+            $updateEm = [
+                'matricule' => $request->id,
+                'nom'       => $request->nom,
+                'telephone' => $request->telephone,
+                'datenaissance' => $request->datenaissance,
+                'genre'         => $request->genre,
+                'compagnie'     => $request->compagnie,
+            ];
+
+            $personnel = [
+                'cin' => $request->cin,
+                'nationalite' => $request->nationalite
+            ];
+            
+            Employe::where('matricule', $request->matricule)->update($updateEm);
+            PersonnelInformation::where('matricule',$request->matricule)->update($personnel);
+
+            DB::commit();
+            Toastr::success('updated record successfully :)','Success');
+            return redirect()->route('all/employee/card');
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -305,8 +347,34 @@ class EmployeController extends Controller
      * @param  \App\Models\Employe  $employe
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Employe $employe)
+    public function destroyEmp($matricule)
     {
-        //
+
+        DB::beginTransaction();
+        try {
+            $emp = Conge::where('matricule', '=', $matricule)->first();
+            $user = Auth::User();
+            $ancien_valeur = $emp->matricule.' & '.$emp->libelle;
+            $tracabilite = [
+                'user_id'       => $user->id,
+                'table_name'    => 'conges',
+                'id_ligne'      => $emp->id,
+                'ancien_valeur' => $ancien_valeur,
+                'type_modif'    =>'delete'
+            ];
+  
+           DB::table('tracabilite')->insert($tracabilite);
+             
+            Conge::where('matricule', $matricule)->delete();
+
+            DB::commit();
+            Toastr::success('Suppresion avec succes :)', 'Success');
+            return redirect()->route('all/employee/card');
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            Toastr::error('Delete record fail :)','Error');
+            return redirect()->back();
+        }
     }
 }

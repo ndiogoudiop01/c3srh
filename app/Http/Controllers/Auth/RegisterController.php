@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -65,7 +66,7 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        return User::create([
+        User::create([
             'name' => $request->name,
             'matricule' => $request->matricule,
             'email' => $request->email,
@@ -75,5 +76,7 @@ class RegisterController extends Controller
             'avatar' => $request->avatar,
             'password' => Hash::make($request->password),
         ]);
+        Toastr::success('Create new account successfully :)','Success');
+        return redirect('login');
     }
 }

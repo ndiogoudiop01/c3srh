@@ -15,23 +15,20 @@
                             <li class="breadcrumb-item active">Leaves</li>
                         </ul>
                     </div>
-                    <div class="col-auto float-right ml-auto">
-                        <a href="#" class="btn add-btn" data-toggle="modal" data-target="#add_leave"><i class="fa fa-plus"></i> Add Leave</a>
-                    </div>
                 </div>
             </div>
             <!-- Leave Statistics -->
             <div class="row">
                 <div class="col-md-3">
                     <div class="stats-info">
-                        <h6>Today Presents</h6>
-                        <h4>12 / 60</h4>
+                        <h6>Total Absences</h6>
+                        <h4>{{ $total_absence }}/ {{ $total_employe }}</h4>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="stats-info">
-                        <h6>Planned Leaves</h6>
-                        <h4>8 <span>Today</span></h4>
+                        <h6>Nombre d'employes</h6>
+                        <h4>{{ $total_employe }} <span>/emp</span></h4>
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -107,36 +104,38 @@
                 <div class="col-md-12">
                     <div class="table-responsive">
                         <table class="table table-striped custom-table mb-0 datatable">
-                            <thead>
+                           <thead>
                                 <tr>
-                                    <th>NOM COMPLET</th>
-                                    <th>Type Absence</th>
-                                    <th>De</th>
-                                    <th>A</th>
-                                    <th>Nbre de jours</th>
-                                    <th>Raisons</th>
-                                    <th class="text-right">Actions</th>
+                                    <th></th>
+                                    <th id="janvier">Janvier</th>
+                                    <th id="fevier">Fevrier</th>
+                                    <th id="mars">Mars</th>
+                                    <th id="avril">Avril</th>
+                                    <th id="mai">Mai</th>
+                                    <th id="juin">Juin</th>
+                                    <th id="juillet">Juillet</th>
+                                    <th id="aout">Aout</th>
+                                    <th id="septembre">Septembre</th>
+                                    <th id="octobre">Octobre</th>
+                                    <th id="novembre">Novembre</th>
+                                    <th id="decembre">Decembre</th>
                                 </tr>
                             </thead>
-
                             <tbody>
-                                @if(!empty($liste_absence))
-                                    @foreach ($liste_absence as $items )  
+                                @if(!empty($employeList))
+                                    @foreach ($employeList as $emp ) 
                                         <tr>
-                                            <td>
-                                                <h2 class="table-avatar">
-                                                    <a href="{{ url('employee/profile/'.$items->matricule) }}" class="avatar"><img alt="" src="{{ URL::to('/assets/images/photo_defaults.jpg') }}" alt="{{ $items->nom }}"></a>
-                                                    <a href="#">{{ $items->nom }}<span>{{ $items->compagnie }}</span></a>
-                                                </h2>
-                                            </td>
-                                            <td hidden class="id">{{ $items->id }}</td>
-                                            <td class="leave_type">{{$items->type_conge}}</td>
-                                            <td hidden class="from_date">{{ $items->date_debut }}</td>
-                                            <td>{{date('d F, Y',strtotime($items->date_debut)) }}</td>
-                                            <td hidden class="to_date">{{$items->date_fin}}</td>
-                                            <td>{{date('d F, Y',strtotime($items->date_fin)) }}</td>
-                                            <td class="day">{{$items->nbre_jours}} Jours</td>
-                                            <td class="leave_reason">{{$items->libelle}}</td>
+                                        <th id="nom">
+                                            <h2 class="table-avatar">
+                                                    <a href="{{ url('employee/profile/'.$emp->matricule) }}" class="avatar"><img alt="" src="{{ URL::to('/assets/images/photo_defaults.jpg') }}" alt="{{ $emp->nom }}"></a>
+                                                    <a href="#">{{ $emp->nom }}<span>{{ $emp->compagnie }}</span></a>
+                                            </h2>
+                                        </th>
+                                        
+                                    @if(!empty($liste_absence))
+                                    @foreach ($liste_absence as $items )  
+                                            <td class="day">{{$items->days}} Jours</td>
+                                            
                                             <td class="text-right">
                                                 <div class="dropdown dropdown-action">
                                                     <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
@@ -149,7 +148,11 @@
                                         </tr>
                                     @endforeach
                                 @endif
+                        
+                                    @endforeach
+                                @endif       
                             </tbody>
+
                         </table>
                     </div>
                 </div>

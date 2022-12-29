@@ -9,10 +9,10 @@
             <div class="page-header">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="page-title">Employee View</h3>
+                        <h3 class="page-title">Modification Employe</h3>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Employee View Edit</li>
+                            <li class="breadcrumb-item active">Modification</li>
                         </ul>
                     </div>
                 </div>
@@ -24,114 +24,70 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title mb-0">Employee edit</h4>
+                            <h4 class="card-title mb-0">Modification employe</h4>
                         </div>
                         <div class="card-body">
                             <form action="{{ route('all/employee/update') }}" method="POST">
                                 @csrf
-                                <input type="hidden" class="form-control" id="id" name="id" value="{{ $employees[0]->id }}">
+                                <input type="hidden" class="form-control" id="id" name="id" value="{{ $employes[0]->matricule }}">
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-2">Full Name</label>
+                                    <label class="col-form-label col-md-2">Nom Complet</label>
                                     <div class="col-md-10">
-                                        <input type="text" class="form-control" id="name" name="name" value="{{ $employees[0]->name }}">
+                                        <input type="text" class="form-control" id="name" name="name" value="{{ $employes[0]->nom }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-2">Email</label>
+                                    <label class="col-form-label col-md-2">Telephone</label>
                                     <div class="col-md-10">
-                                        <input type="email" class="form-control" id="email" name="email" value="{{ $employees[0]->email }}">
+                                        <input type="email" class="form-control" id="telephone" name="telephone" value="{{ $employes[0]->telephone }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-2">Birth Date</label>
+                                    <label class="col-form-label col-md-2">Date de naissance</label>
                                     <div class="col-md-10">
-                                        <input type="text" class="form-control datetimepicker" id="birth_date" name="birth_date" value="{{ $employees[0]->birth_date }}">
+                                        <input type="text" class="form-control datetimepicker" id="datenaissane" name="datenaissance" value="{{ $employes[0]->datenaissance }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-2">Gender</label>
+                                    <label class="col-form-label col-md-2">Genre</label>
                                     <div class="col-md-10">
-                                        <select class="select form-control" id="gender" name="gender">
-                                            <option value="{{ $employees[0]->gender }}" {{ ( $employees[0]->gender == $employees[0]->gender) ? 'selected' : '' }}>{{ $employees[0]->gender }} </option>
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
+                                        <select class="select form-control" id="genre" name="genre">
+                                            <option value="{{ $employes[0]->genre }}" {{ ( $employes[0]->genre == $employes[0]->genre) ? 'selected' : '' }}>{{ $employes[0]->genre }} </option>
+                                            <option value="Homme">Homme</option>
+                                            <option value="Femme">Femme</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-2">Employee ID</label>
+                                    <label class="col-form-label col-md-2">Matricule Employe</label>
                                     <div class="col-md-10">
-                                        <input type="text" class="form-control" id="employee_id" name="employee_id" value="{{ $employees[0]->employee_id }}" readonly>
+                                        <input type="text" class="form-control" id="matricule" name="matricule" value="{{ $employes[0]->matricule }}" readonly>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-2">Company</label>
-                                    <div class="col-md-10">
-                                        <input type="text" class="form-control" id="company" name="company" value="{{ $employees[0]->company }}">
+                                    <label class="col-form-label col-md-2">Compagnie</label>
+                                    <div class="col-md-5">
+                                        <input type="text" class="form-control" id="compagnie" name="compagnie" value="{{ $employes[0]->compagnie }}">
+                                    </div>
+                                    <label class="col-form-label col-md-2">Departement</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control" id="departement" name="departement" value="{{ $employes[0]->adresse }}">
                                     </div>
                                 </div>
-
                                 <div class="form-group row">
-                                    <label class="col-form-label col-md-2">Employee Permission</label>
-                                    <div class="col-md-10">
-                                        <div class="table-responsive m-t-15">
-                                            <table class="table table-striped custom-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Module Permission</th>
-                                                        <th class="text-center">Read</th>
-                                                        <th class="text-center">Write</th>
-                                                        <th class="text-center">Create</th>
-                                                        <th class="text-center">Delete</th>
-                                                        <th class="text-center">Import</th>
-                                                        <th class="text-center">Export</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php
-                                                    $key = 0;
-                                                    $key1 = 0;
-                                                    ?>
-                                                    @foreach ($permission as $items )
-                                                    <tr>
-                                                        <td>{{ $items->module_permission }}</td>
-                                                        <input type="hidden" name="permission[]" value="{{ $items->module_permission }}">
-                                                        <input type="hidden" name="id_permission[]" value="{{ $items->id }}">
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="read{{ ++$key }}" id="read" name="read[]" value="Y"{{ $items->read =="Y" ? 'checked' : ''}} >
-                                                            <input type="checkbox" class="read{{ ++$key1 }}" id="read" name="read[]" value="N" {{ $items->read =="N" ? 'checked' : ''}}>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="write{{ ++$key }}" id="write" name="write[]" value="Y" {{ $items->write =="Y" ? 'checked' : ''}}>
-                                                            <input type="checkbox" class="write{{ ++$key1 }}" id="write" name="write[]" value="N" {{ $items->write =="N" ? 'checked' : ''}}>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="create{{ ++$key }}" id="create" name="create[]" value="Y" {{ $items->create =="Y" ? 'checked' : ''}}>
-                                                            <input type="checkbox" class="create{{ ++$key1 }}" id="create" name="create[]" value="N" {{ $items->create =="N" ? 'checked' : ''}}>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="delete{{ ++$key }}" id="delete" name="delete[]" value="Y" {{ $items->delete =="Y" ? 'checked' : ''}}>
-                                                            <input type="checkbox" class="delete{{ ++$key1 }}" id="delete" name="delete[]" value="N" {{ $items->delete =="N" ? 'checked' : ''}}>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="import{{ ++$key }}" id="import" name="import[]" value="Y" {{ $items->import =="Y" ? 'checked' : ''}}>
-                                                            <input type="checkbox" class="import{{ ++$key1 }}" id="import" name="import[]" value="N" {{ $items->import =="N" ? 'checked' : ''}}>
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <input type="checkbox" class="export{{ ++$key }}" id="export" name="export[]" value="Y" {{ $items->export =="Y" ? 'checked' : ''}}>
-                                                            <input type="checkbox" class="export{{ ++$key1 }}" id="export" name="export[]" value="N" {{ $items->export =="N" ? 'checked' : ''}}>
-                                                        </td>
-                                                    </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                    <label class="col-form-label col-md-2">CIN</label>
+                                    <div class="col-md-5">
+                                        <input type="text" class="form-control" id="cin" name="cin" value="{{ $employes[0]->cin }}">
+                                    </div>
+                                    <label class="col-form-label col-md-2">Nationalite</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control" id="nationalite" name="nationalite" value="{{ $employes[0]->nationalite }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-form-label col-md-2"></label>
                                     <div class="col-md-10">
-                                        <button type="submit" class="btn btn-primary submit-btn">Update</button>
+                                        <button type="submit" class="btn btn-primary submit-btn">MAJ</button>
                                     </div>
                                 </div>
                             </form>

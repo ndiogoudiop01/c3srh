@@ -109,9 +109,9 @@ Route::controller(EmployeController::class)->group(function () {
     Route::get('all/employee/list', 'listAllEmploye')->middleware('auth')->name('all/employee/list');
     Route::post('all/employee/save', 'addAttendanceLogs')->middleware('auth')->name('all/employee/save');
     Route::post('all/employee/saveEmp', 'addEmploye')->middleware('auth')->name('all/employee/saveEmp');
-    Route::get('all/employee/view/edit/{employee_id}', 'viewRecord')->middleware('auth');
+    Route::get('all/employee/view/edit/{matricule}', 'showRecord')->middleware('auth');
     Route::post('all/employee/update', 'updateRecord')->middleware('auth')->name('all/employee/update');
-    Route::get('all/employee/delete/{employee_id}', 'deleteRecord')->middleware('auth');
+    Route::get('all/employee/delete/{matricule}', 'destroyEmp')->middleware('auth');
     Route::post('all/employee/search', 'employeeSearch')->name('all/employee/search');
     Route::post('all/employee/list/search', 'employeeListSearch')->name('all/employee/list/search');
 
