@@ -124,7 +124,7 @@
                             <tbody>
                                 @if(!empty($employeList))
                                     @foreach ($employeList as $emp ) 
-                                        <tr>
+                                        
                                         <th id="nom">
                                             <h2 class="table-avatar">
                                                     <a href="{{ url('employee/profile/'.$emp->matricule) }}" class="avatar"><img alt="" src="{{ URL::to('/assets/images/photo_defaults.jpg') }}" alt="{{ $emp->nom }}"></a>
@@ -132,11 +132,16 @@
                                             </h2>
                                         </th>
                                         
-                                    @if(!empty($liste_absence))
-                                    @foreach ($liste_absence as $items )  
-                                            <td class="day">{{$items->days}} Jours</td>
+                                    @if(!empty($test))
+                                    
+                                    @foreach ($test as $items ) 
+                                       
+                                            <td class="day">{{ $items->nbre_jours }} Jours</td>
                                             
-                                            <td class="text-right">
+                                            
+                                       
+                                    @endforeach
+                                    <td class="text-right">
                                                 <div class="dropdown dropdown-action">
                                                     <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
                                                     <div class="dropdown-menu dropdown-menu-right">
@@ -145,10 +150,9 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
-                                    @endforeach
+                                     
                                 @endif
-                        
+                                </tr>
                                     @endforeach
                                 @endif       
                             </tbody>

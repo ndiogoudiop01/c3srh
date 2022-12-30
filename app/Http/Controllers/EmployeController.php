@@ -202,9 +202,9 @@ class EmployeController extends Controller
                     } else {
                         $debut = $request->date_debut;
                         $fin = $request->date_fin;
-                        $debut = strtotime($debut);
-                        $fin = strtotime($fin);
-                        $nbre_jours= ceil(abs($fin - $debut) / 86400)+$days;        
+                        $debutc = strtotime($debut);
+                        $finc = strtotime($fin);
+                        $nbre_jours= ceil(abs($finc - $debutc) / 86400)+$days;        
                     }
                 }else{
                     if (!empty($request->nbre_jours)) {
@@ -214,9 +214,9 @@ class EmployeController extends Controller
                     } else {
                         $debut = $request->date_debut;
                         $fin = $request->date_fin;
-                        $debut = strtotime($debut);
-                        $fin = strtotime($fin);
-                        $nbre_jours= ceil(abs($fin - $debut) / 86400);
+                        $debutc = strtotime($debut);
+                        $finc = strtotime($fin);
+                        $nbre_jours= ceil(abs($finc - $debutc) / 86400);
                     }
                 }
                 $conge->matricule         = $request->matricule;
@@ -235,9 +235,9 @@ class EmployeController extends Controller
                 } else {
                     $debut = $request->date_debut;
                     $fin = $request->date_fin;
-                    $debut = strtotime($debut);
-                    $fin = strtotime($fin);
-                    $nbre_jours= ceil(abs($fin - $debut) / 86400);
+                    $debutc = strtotime($debut);
+                    $finc = strtotime($fin);
+                    $nbre_jours= ceil(abs($finc - $debutc) / 86400);
                 }
 
                 $conge->matricule         = $request->matricule;
@@ -347,12 +347,12 @@ class EmployeController extends Controller
      * @param  \App\Models\Employe  $employe
      * @return \Illuminate\Http\Response
      */
-    public function destroyEmp($matricule)
+    public function destroyEmp($id)
     {
 
         DB::beginTransaction();
         try {
-            $emp = Conge::where('matricule', '=', $matricule)->first();
+            $emp = Conge::where('id', '=', $id)->first();
             $user = Auth::User();
             $ancien_valeur = $emp->matricule.' & '.$emp->libelle;
             $tracabilite = [
@@ -365,7 +365,7 @@ class EmployeController extends Controller
   
            DB::table('tracabilite')->insert($tracabilite);
              
-            Conge::where('matricule', $matricule)->delete();
+            Conge::where('id', $id)->delete();
 
             DB::commit();
             Toastr::success('Suppresion avec succes :)', 'Success');

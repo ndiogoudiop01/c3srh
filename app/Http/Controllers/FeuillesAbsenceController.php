@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Conge;
+use App\Models\Employe;
 use Brian2694\Toastr\Facades\Toastr;
 use DateTime;
 use Illuminate\Http\Request;
@@ -16,12 +17,19 @@ class FeuillesAbsenceController extends Controller
         $total_absence = DB::table('conges')->get()->sum("nbre_jours");
         $total_employe = DB::table('employes')->get()->count('id');
         $employeList = DB::table('employes')->get();
+        $test = DB::table('employes')
+                ->join('conges', function($join)  {
+                    $join->on('employes.matricule', '=', 'conges.matricule');
+                })
+                ->select('employes.*', 'conges.*')
+                ->get();
+        //dd($test);
         $liste_absence = DB::table('conges')
                          ->join('employes', 'employes.matricule', '=', 'conges.matricule')
-                         ->select('conges.id', 'conges.matricule', 'conges.libelle', 'conges.type_conge', 'conges.date_debut', 'conges.date_fin','conges.nbre_jours', DB::raw('SUM(conges.nbre_jours) as days'),'employes.nom', 'employes.compagnie')
-                         ->groupBy('conges.id', 'employes.id')
+                         ->select('conges.id', 'conges.matricule', 'conges.libelle', 'conges.type_conge', 'conges.date_debut', 'conges.date_fin','conges.nbre_jours', 'employes.nom', 'employes.compagnie')
                          ->get();
-        return view('form.leaves', compact('liste_absence', 'total_absence', 'total_employe', 'employeList'));
+        //dd($liste_absence);
+        return view('form.leaves', compact('liste_absence', 'total_absence', 'total_employe', 'employeList', 'test'));
     }
 
     //recherche
