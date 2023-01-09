@@ -122,36 +122,118 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @if(!empty($employeList))
-                                    @foreach ($employeList as $emp ) 
+                                <?php 
+                                    $list_employe = DB::select(DB::raw("
+                                        SELECT employes.id, employes.matricule, employes.nom, employes.compagnie, conges.id as conge
+                                        FROM employes
+                                        LEFT JOIN conges ON (employes.matricule = conges.matricule) 
+                                    "));
+                                ?>
+                                @if(!empty($list_employe))
+                                    @foreach ($list_employe as $emp ) 
                                         
                                         <th id="nom">
-                                            <h2 class="table-avatar">
+                                            <h4 class="table-avatar">
                                                     <a href="{{ url('employee/profile/'.$emp->matricule) }}" class="avatar"><img alt="" src="{{ URL::to('/assets/images/photo_defaults.jpg') }}" alt="{{ $emp->nom }}"></a>
                                                     <a href="#">{{ $emp->nom }}<span>{{ $emp->compagnie }}</span></a>
-                                            </h2>
+                                            </h4>
                                         </th>
-                                        
-                                    @if(!empty($test))
+                                    <?php
                                     
-                                    @foreach ($test as $items ) 
-                                       
-                                            <td class="day">{{ $items->nbre_jours }} Jours</td>
+                                    
+                                    //$janvier = [];
+                                    //$fevier = [];
+                                    //$mars = [];
+                                    $i = 0;
+                                    $id = $emp->conge;
+                                        //echo $id;
+                                        $sql = DB::select(DB::raw("
+                                            SELECT MONTH(date_debut) as debut
+                                            FROM conges
+                                            JOIN employes ON (employes.matricule = conges.matricule) 
+                                            WHERE conges.id='$id'
+                                        "));
+
+                                        //print_r($sql);
+                                        //$date=new \DateTime($sql[0]->date_debut);
+                                        //$debut = $date->format('m');
+                                        if($sql){ 
                                             
+                                            //while($i < count($employeList)){
+                                            $debut = $sql[0]->debut;
+                                            echo 'Months='.$debut.'<br>';
                                             
+                                            if($debut == 1){
+                                                //echo $i.'<br />';
+                                                $test =  DB::select(DB::raw("
+                                                SELECT c.nbre_jours
+                                                FROM conges AS c  
+                                                JOIN employes ON (employes.matricule = c.matricule)  
+                                                WHERE  c.id='$id' AND  DATE_FORMAT(c.date_debut, '%m/%Y')='0$debut/2023'
+                                                ORDER BY c.id DESC
+                                                LIMIT 1
+                                                "));
+                                               
+                                               //if($test[$i]!=null){
+                                                    $janvier = $test[0]->nbre_jours;
+                                                    $fevrier = 0;
+                                                    $mars=0;
+                                               //}
+                                               
+                                            } else if($debut == 2){
+                                                
+                                                $test =  DB::select(DB::raw("
+                                                    SELECT Max(c.nbre_jours) AS nbre_jours
+                                                    FROM conges AS c  
+                                                    JOIN employes ON (employes.matricule = c.matricule)  
+                                                    WHERE  c.id='$id' AND  DATE_FORMAT(c.date_debut, '%m/%Y')='0$debut/2023'
+                                                    ORDER BY c.id DESC
+
+                                                "));
+                                               
+                                                $janvier = 0;
+                                                $fevrier = $test[0]->nbre_jours;
+                                                $mars=0;
+                                                //$i++;
+                                            }else if($debut == 3){
+                                                $test =  DB::select(DB::raw("
+                                                SELECT Max(c.nbre_jours) AS nbre_jours
+                                                    FROM conges AS c  
+                                                    JOIN employes ON (employes.matricule = c.matricule)  
+                                                    WHERE  c.id='$id' AND  DATE_FORMAT(c.date_debut, '%m/%Y')='0$debut/2023'
+                                                    ORDER BY c.id DESC
+                                                    
+                                                "));
+                                               
+                                                $janvier = 0;
+                                                 $fevrier = 0;
+                                                $mars = $test[0]->nbre_jours;
+                                                //$i++;
+                                            
+                                            }else {
+                                               
+                                                //$fevrier=0;
+                                            }
+                                             $i++;
+                                        //}
                                        
-                                    @endforeach
+                                    }
+                                      
+                                    ?>    
+                                    <td class='day'> <?= $janvier;  ?> jours</td>
+                                    <td class='day'> <?= $fevrier;  ?> jours</td>
+                                     <td class='day'> <?= $mars;  ?> jours</td>
+                                    
                                     <td class="text-right">
-                                                <div class="dropdown dropdown-action">
-                                                    <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item leaveUpdate" data-toggle="modal" data-id="'.$items->id.'" data-target="#edit_leave"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                                        <a class="dropdown-item leaveDelete" href="#" data-toggle="modal" data-target="#delete_approve"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                     
-                                @endif
+                                        <div class="dropdown dropdown-action">
+                                            <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item leaveUpdate" data-toggle="modal" data-id="'.$items->id.'" data-target="#edit_leave"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+                                                <a class="dropdown-item leaveDelete" href="#" data-toggle="modal" data-target="#delete_approve"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                                            </div>
+                                        </div>
+                                    </td> 
+                              
                                 </tr>
                                     @endforeach
                                 @endif       

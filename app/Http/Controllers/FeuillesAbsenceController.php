@@ -17,21 +17,14 @@ class FeuillesAbsenceController extends Controller
         $total_absence = DB::table('conges')->get()->sum("nbre_jours");
         $total_employe = DB::table('employes')->get()->count('id');
         $employeList = DB::table('employes')->get();
-        $test = DB::table('employes')
-                ->join('conges', function($join)  {
-                    $join->on('employes.matricule', '=', 'conges.matricule');
-                })
-                ->select('employes.*', 'conges.*')
-                ->get();
-        //dd($test);
         $liste_absence = DB::table('conges')
                          ->join('employes', 'employes.matricule', '=', 'conges.matricule')
                          ->select('conges.id', 'conges.matricule', 'conges.libelle', 'conges.type_conge', 'conges.date_debut', 'conges.date_fin','conges.nbre_jours', 'employes.nom', 'employes.compagnie')
                          ->get();
-        //dd($liste_absence);
-        return view('form.leaves', compact('liste_absence', 'total_absence', 'total_employe', 'employeList', 'test'));
+        return view('form.leaves', compact('liste_absence', 'total_absence', 'total_employe', 'employeList'));
     }
 
+    
     //recherche
     public function absenceSearch(Request $request)
     {

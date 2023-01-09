@@ -175,7 +175,10 @@ class EmployeController extends Controller
             'libelle'          => 'required|string|max:255',
             'type_conge'       => 'required|string|max:255',
         ]); 
-        $conges = Conge::where('matricule', '=',$request->matricule)->latest('date_debut')->first();
+        $conges = Conge::where('matricule', '=',$request->matricule)
+                    ->latest('id')
+                    ->first();
+        
         DB::beginTransaction();
         try{
 
@@ -185,26 +188,32 @@ class EmployeController extends Controller
             $date=Carbon::now();
             $now = $date->format('Y-m-d');
             $conge = new Conge();
-
+            //dd($conges);
             if ($conges != null) {
                 
                 // $created = new \DateTime();
                 $created=new \DateTime($conges->date_debut);
-                $created = $created->format('Y-m-d');
+                $created = $created->format('m');
+                $now = new \DateTime($request->date_debut);
+                $now = $now->format('m');
                 $days = (int)$conges->nbre_jours;
+                //echo $created.'/////'.$now.'////'.$days;
+                //dd($conges);
                 
-                if($created == $request->date_debut){
+                if($created === $now){
                    
                     if (!empty($request->nbre_jours)) {
                         $nbre_jours = $request->nbre_jours+$days;
                         $debut = $request->date_debut;
                         $fin = $request->date_fin;
                     } else {
+                        
                         $debut = $request->date_debut;
                         $fin = $request->date_fin;
                         $debutc = strtotime($debut);
                         $finc = strtotime($fin);
-                        $nbre_jours= ceil(abs($finc - $debutc) / 86400)+$days;        
+                        $nbre_jours= ceil(abs($finc - $debutc) / 86400)+$days;    
+                            
                     }
                 }else{
                     if (!empty($request->nbre_jours)) {
@@ -226,6 +235,7 @@ class EmployeController extends Controller
                 $conge->date_debut        = $debut;
                 $conge->date_fin          = $fin;
                 $conge->nbre_jours        = $nbre_jours;
+                //dd($conge);
             }else{
                
                 if (!empty($request->nbre_jours)) {
