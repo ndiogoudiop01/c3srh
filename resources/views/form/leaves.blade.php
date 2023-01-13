@@ -139,6 +139,7 @@
                                             "));
                                             foreach($sql_months as $months)
                                             {
+                                                $mois = '';
                                                 if($months->datedebut == '01/2023')
                                                 {
                                                     $mois = 'Janvier';
