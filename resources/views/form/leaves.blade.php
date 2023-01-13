@@ -148,11 +148,37 @@
                                                 }else if($months->datedebut == '03/2023')
                                                 {
                                                     $mois = 'Mars';
-                                                }
+                                                } else
                                                 if($months->datedebut == '04/2023')
                                                 {
                                                     $mois = 'Avril';
+                                                }else if($months->datedebut == '05/2023')
+                                                {
+                                                    $mois = 'Mai';
+                                                }else if($months->datedebut == '06/2023')
+                                                {
+                                                    $mois = 'Juin';
+                                                }else if($months->datedebut == '07/2023')
+                                                {
+                                                    $mois = 'Juillet';
+                                                }else if($months->datedebut == '08/2023')
+                                                {
+                                                    $mois = 'Aout';
+                                                }else if($months->datedebut == '09/2023')
+                                                {
+                                                    $mois = 'Septembre';
+                                                }else if($months->datedebut == '10/2023')
+                                                {
+                                                    $mois = 'Decembre';
+                                                }else if($months->datedebut == '11/2023')
+                                                {
+                                                    $mois = 'Novembre';
+                                                }else if($months->datedebut == '12/2023')
+                                                {
+                                                    $mois = 'Decembre';
                                                 }
+
+
                                     ?>          
                                     
                                       <td><?php echo  $months->nbre_jours ?>jours : <?= $mois;   ?></td>
