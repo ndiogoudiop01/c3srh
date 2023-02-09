@@ -148,7 +148,9 @@ Route::controller(FeuillesAbsenceController::class)->group(function () {
     Route::get('form/leavesemployee/new', 'leavesEmployee')->middleware('auth')->name('form/leavesemployee/new');
     Route::post('form/leaves/save', 'saveRecord')->middleware('auth')->name('form/leaves/save');
     Route::post('form/leaves/edit', 'editRecordLeave')->middleware('auth')->name('form/leaves/edit');
-    Route::post('form/leaves/edit/delete','deleteLeave')->middleware('auth')->name('form/leaves/edit/delete');    
+    Route::post('form/leaves/edit/delete','deleteLeave')->middleware('auth')->name('form/leaves/edit/delete');   
+    Route::get('form/leaves/export', 'showExport')->middleware('auth')->name('form/leaves/showExport');
+    Route::post('form/leaves/export', 'export')->middleware('auth')->name('form/leaves/export'); 
 });
 // ----------------------------- form attendance  ------------------------------//
 Route::controller(LeavesController::class)->group(function () {

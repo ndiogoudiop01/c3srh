@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PresenceExport;
+use App\Exports\InvoicesExport;
 use App\Models\Conge;
 use App\Models\Employe;
 use Brian2694\Toastr\Facades\Toastr;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class FeuillesAbsenceController extends Controller
 {
@@ -190,16 +193,22 @@ class FeuillesAbsenceController extends Controller
         }
     }
 
-    // leaveSettings
-    public function leaveSettings()
+    // showExport
+    public function showExport()
     {
-        return view('form.leavesettings');
+        $liste_absence = DB::select(DB::raw("
+        SELECT employes.nom, conges.id as ident, conges.nbre_jours, DATE_FORMAT(conges.date_debut, '%m/%Y') as date_create
+        FROM conges
+        LEFT JOIN employes ON employes.matricule = conges.matricule
+        WHERE employes.matricule=conges.matricule 
+        "));
+        return Excel::download(new PresenceExport($liste_absence), 'presence.xlsx');
     }
 
     // attendance admin
-    public function attendanceIndex()
+    public function export()
     {
-        return view('form.attendance');
+        //return Excel::download(new PresenceExport, 'presence.xlsx');
     }
 
     // attendance employee
