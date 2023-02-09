@@ -107,52 +107,52 @@
                         
                            <?php
 $pivot = array();
-$liste_absence = DB::select(DB::raw("
-        SELECT employes.nom, conges.id as ident, conges.nbre_jours, DATE_FORMAT(conges.date_debut, '%m/%Y') as date_create
-        FROM conges
-        LEFT JOIN employes ON employes.matricule = conges.matricule
-        WHERE employes.matricule=conges.matricule 
-        "));
+$liste_absence = DB::table('conges')
+                     ->join('employes',  'employes.matricule', '=', 'conges.matricule')
+                     ->select('employes.nom', 'conges.id as ident', 'conges.nbre_jours', 'conges.date_debut')
+                     ->get()
+                     ->toArray();
 
 foreach($liste_absence as $liste)
 {
     $nom = $liste->nom;
+    
     $mois = '';
-                                                if($liste->date_create == '01/2023')
+                                                if(date("F", strtotime($liste->date_debut))== 'January')
                                                 {
                                                     $mois = 'Janvier';
-                                                }else if($liste->date_create == '02/2023')
+                                                }else if(date("F", strtotime($liste->date_debut))== 'February')
                                                 {
                                                     $mois = 'Fevrier';
-                                                }else if($liste->date_create == '03/2023')
+                                                }else if(date("F", strtotime($liste->date_debut))== 'March')
                                                 {
                                                     $mois = 'Mars';
                                                 } else
-                                                if($liste->date_create == '04/2023')
+                                                if(date("F", strtotime($liste->date_debut))== 'April')
                                                 {
                                                     $mois = 'Avril';
-                                                }else if($liste->date_create == '05/2023')
+                                                }else if(date("F", strtotime($liste->date_debut))== 'May')
                                                 {
                                                     $mois = 'Mai';
-                                                }else if($liste->date_create == '06/2023')
+                                                }else if(date("F", strtotime($liste->date_debut))== 'June')
                                                 {
                                                     $mois = 'Juin';
-                                                }else if($liste->date_create == '07/2023')
+                                                }else if(date("F", strtotime($liste->date_debut))== 'July')
                                                 {
                                                     $mois = 'Juillet';
-                                                }else if($liste->date_create == '08/2023')
+                                                }else if(date("F", strtotime($liste->date_debut))== 'August')
                                                 {
                                                     $mois = 'Aout';
-                                                }else if($liste->date_create == '09/2023')
+                                                }else if(date("F", strtotime($liste->date_debut))== 'September')
                                                 {
                                                     $mois = 'Septembre';
-                                                }else if($liste->date_create == '10/2023')
+                                                }else if(date("F", strtotime($liste->date_debut))== 'October')
                                                 {
-                                                    $mois = 'Decembre';
-                                                }else if($liste->date_create == '11/2023')
+                                                    $mois = 'Octobre';
+                                                }else if(date("F", strtotime($liste->date_debut))== 'November')
                                                 {
                                                     $mois = 'Novembre';
-                                                }else if($liste->date_create == '12/2023')
+                                                }else if(date("F", strtotime($liste->date_debut))== 'December')
                                                 {
                                                     $mois = 'Decembre';
                                                 }
