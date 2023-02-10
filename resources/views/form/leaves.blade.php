@@ -106,6 +106,7 @@
                     <div class="table-responsive">
                         
                            <?php
+<<<<<<< HEAD
                             $pivot = array();
                             $liste_absence = DB::select(DB::raw("
                                     SELECT employes.nom, conges.id as ident, conges.nbre_jours, DATE_FORMAT(conges.date_debut, '%m/%Y') as date_create
@@ -155,6 +156,55 @@
                                                 {
                                                     $mois = 'Novembre';
                                                 }else if($liste->date_create == '12/2022')
+=======
+$pivot = array();
+$liste_absence = DB::table('conges')
+                     ->join('employes',  'employes.matricule', '=', 'conges.matricule')
+                     ->select('employes.nom', 'conges.id as ident', 'conges.nbre_jours', 'conges.date_debut')
+                     ->get()
+                     ->toArray();
+
+foreach($liste_absence as $liste)
+{
+    $nom = $liste->nom;
+    
+    $mois = '';
+                                                if(date("F", strtotime($liste->date_debut))== 'January')
+                                                {
+                                                    $mois = 'Janvier';
+                                                }else if(date("F", strtotime($liste->date_debut))== 'February')
+                                                {
+                                                    $mois = 'Fevrier';
+                                                }else if(date("F", strtotime($liste->date_debut))== 'March')
+                                                {
+                                                    $mois = 'Mars';
+                                                } else
+                                                if(date("F", strtotime($liste->date_debut))== 'April')
+                                                {
+                                                    $mois = 'Avril';
+                                                }else if(date("F", strtotime($liste->date_debut))== 'May')
+                                                {
+                                                    $mois = 'Mai';
+                                                }else if(date("F", strtotime($liste->date_debut))== 'June')
+                                                {
+                                                    $mois = 'Juin';
+                                                }else if(date("F", strtotime($liste->date_debut))== 'July')
+                                                {
+                                                    $mois = 'Juillet';
+                                                }else if(date("F", strtotime($liste->date_debut))== 'August')
+                                                {
+                                                    $mois = 'Aout';
+                                                }else if(date("F", strtotime($liste->date_debut))== 'September')
+                                                {
+                                                    $mois = 'Septembre';
+                                                }else if(date("F", strtotime($liste->date_debut))== 'October')
+                                                {
+                                                    $mois = 'Octobre';
+                                                }else if(date("F", strtotime($liste->date_debut))== 'November')
+                                                {
+                                                    $mois = 'Novembre';
+                                                }else if(date("F", strtotime($liste->date_debut))== 'December')
+>>>>>>> b04fd9ee2695596f63fc6513ef07b8065bb830aa
                                                 {
                                                     $mois = 'Decembre';
                                                 }
